@@ -1,0 +1,9 @@
+{
+    "files.exclude": {
+        "**/*.exe": true,
+        "**/*.pdb": true,
+        "**/Cargo.lock": true,
+        "**/Cargo.toml": true,
+        "**/target": true
+    }
+}
