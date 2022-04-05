@@ -1,8 +1,12 @@
 // Si se contatenan las palabras en grupos de N elementos, obtener el primer elemento más grande en tamaño
 fn main() {
-    let strarr = vec!["tree", "foling", "trashy", "blue", "abcdef", "uvwxyz"];
-    let result = longest_consec(strarr, 2);
-    println!("{result}");
+    let strarr = vec!["tre1", "tre2", "tre3", "bue", "ef", "yz"];
+    for i in strarr.windows(2).map(|x| x.join("")).rev() {
+        println!("{}", i);
+    }
+
+    // let result = longest_consec(strarr, 2);
+    // println!("{result}");
 }
 
 #[test]
@@ -75,7 +79,7 @@ fn longest_consec_version_a(strarr: Vec<&str>, k: usize) -> String {
     return String::from("");
 }
 
-fn longest_consec(strarr: Vec<&str>, k: usize) -> String {
+fn longest_consec_version_b(strarr: Vec<&str>, k: usize) -> String {
     if strarr.len() == 0 || k > strarr.len() || k == 0 {
         return String::new();
     }
@@ -86,5 +90,22 @@ fn longest_consec(strarr: Vec<&str>, k: usize) -> String {
             result = concatenated;
         }
     }
+    return result;
+}
+
+// Pendiente: .rev parece que era para pasar la prueba porque me parece que 
+// esta función no cubre el caso de 2 frases con igual tamaño pero diferentes 
+// palabras donde el primero es el que debería retornarse
+fn longest_consec(strarr: Vec<&str>, k: usize) -> String {
+    if strarr.len() == 0 || k > strarr.len() || k == 0 {
+        return String::new();
+    }
+
+    let result = strarr
+        .windows(k)
+        .map(|x| x.join(""))
+        // .rev()
+        .max_by_key(String::len)
+        .unwrap_or(String::new());
     return result;
 }
