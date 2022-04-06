@@ -1,7 +1,7 @@
 // Ordena solo los números impares
 fn main() {
-    sort_array(&[5, 8, 6, 3, 4]);
-    println!("Hello, world!");
+    let result = sort_array(&[5, 8, 6, 3, 4]);
+    println!("{:?}", result);
 }
 
 #[test]
@@ -17,14 +17,14 @@ fn main_test_2() {
     assert_eq!(expected, result);
 }
 
-fn sort_array(arr: &[i32]) -> Vec<i32> {
+fn sort_array_version_a(arr: &[i32]) -> Vec<i32> {
     let mut result = arr.to_vec();
     for i in 0..result.len() {
         if result[i] % 2 == 0 {
             continue;
         };
         println!("{}", result[i]);
-        for j in (i+1)..result.len() {
+        for j in (i + 1)..result.len() {
             if result[j] % 2 == 0 || i == j {
                 continue;
             };
@@ -36,4 +36,22 @@ fn sort_array(arr: &[i32]) -> Vec<i32> {
         }
     }
     return result;
+}
+
+fn sort_array(arr: &[i32]) -> Vec<i32> {
+    let mut impares_collection: Vec<&i32> = arr.iter().filter(|&x| x % 2 == 1).collect();
+    impares_collection.sort();
+
+    // si fuera .iter() cuando lo consumo tendría que hacer 2 asteriscos: **impares.next()
+    let mut impares = impares_collection.into_iter();
+
+    arr.iter()
+        .map(|&x| {
+            if x % 2 == 0 {
+                x
+            } else {
+                *impares.next().unwrap()
+            }
+        })
+        .collect::<Vec<_>>()
 }
